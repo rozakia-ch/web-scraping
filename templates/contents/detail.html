@@ -1,0 +1,148 @@
+{% extends "layouts/base.html" %}
+{% load staticfiles %}
+{% block content %} 
+<style>
+.paragraf { 
+
+/*text-indent: 50px;*/
+/*padding-bottom: 10px;*/
+padding-right: 20px;
+padding-left: 20px; 
+margin-top: 40px;
+margin-left: 40px;
+margin-right: 40px; 
+font-size: 16px;
+
+text-align: justify;
+
+line-height: 200%;
+}
+.margin{
+padding-right: 60px;
+padding-left: 60px;
+}
+</style>
+        <div class="main-content container-fluid">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="panel panel-default panel-border-color panel-border-color-primary">
+                <div class="panel-heading panel-heading-divider"></div>
+                <div class="panel-body">
+                  <h2 id="judul" style="padding-left: 60px;"></h2>
+                  <div id="body" class="paragraf">
+                  </div>
+                  <div class="paragraf">
+                    <p>visit link : <a href="{{ item.url_berita }}" target="blank">{{ item.judul }}</a></p>
+                  </div>
+                  
+                  <form action="{% url 'update' pk=item.pk %}" method="post" class="form-horizontal">
+                  	{% csrf_token %}
+                    <input type="hidden" value="{{ item.judul }}" class="form-control" name="judul">
+                    <input type="hidden" value="{{ item.url_berita }}" name="url_berita">
+                    <input type="hidden" value="{{ item.isi_berita }}" name="isi_berita">
+                    <input type="hidden" value="{{ item.time_publiserby }}" name="time_publiserby">
+                    <input type="hidden" value="{{ item.sumber_berita }}" name="sumber_berita">
+                    <div class="form-group xs-mt-10">
+                      <div class="col-sm-1"></div>
+                      <div class="col-sm-3">
+                        {% if item.status_berita == "Buang" %}
+                          <button data-toggle="modal" data-target="#mod-danger" type="button" class="btn btn-space btn-danger">Hapus</button>
+                          {% endif %}
+                      </div>
+                      <label for="inputEmail3" class="col-sm-2 control-label">Status Berita</label>
+                      <div class="col-sm-3">
+                        <select class="form-control input-sm" name="status_berita">
+                         {% if item.status_berita == "Positif" %}
+                            <option>{{ item.status_berita }}</option>
+                            <option>Negatif</option>
+                         {% elif  item.status_berita == "Negatif" %}
+                            <option>{{ item.status_berita }}</option>
+                            <option>Positif</option>
+                         {% elif  item.status_berita == "Buang" %}
+                            <option>{{ item.status_berita }}</option>
+                            <option>Positif</option>
+                            <option>Negatif</option>
+                         {% else %}
+                            <option>-</option>
+                            <option>Negatif</option>
+                            <option>Positif</option>
+                            <option>Buang</option>
+                          {% endif %}
+                        </select>
+                      </div>
+                      <div class="col-sm-3">
+                        <button type="submit" class="btn btn-space btn-primary">simpan</button>
+                        <button class="btn btn-space btn-default">Batal</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+	</div>
+
+	<script src="{% static 'assets/lib/jquery/jquery.min.js' %}" type="text/javascript"></script>
+	<script src="{% static 'assets/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js' %}" type="text/javascript"></script>
+	<script src="{% static 'assets/js/main.js' %}" type="text/javascript"></script>
+	<script src="{% static 'assets/lib/bootstrap/dist/js/bootstrap.min.js' %}" type="text/javascript"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+      	//initialize the javascript
+      	App.init();
+      	// App.formElements();
+                
+      });
+    </script>
+    <script type="text/javascript">
+      $(function(){
+        $.ajax({
+            url: '/api/getNews/'+{{ item.id }},
+            //force to handle it as text
+            dataType: "text",
+            success: function(data) {
+                //data downloaded so we call parseJSON function 
+                //and pass downloaded data
+                var json = $.parseJSON(data);
+                //now json variable contains data in json format
+                //let's display a few items
+                for (var i=0;i<json.length;++i)
+                {
+                    $('#judul').append('<div class="name">'+json[i].judul+'</>');
+                    var myStr = json[i].berita;
+                    
+                  var strArray = myStr.split("\n");
+                  // Display array values on page
+                  for (var i = 0; i < strArray.length; i++) {
+                        $("#body").append("<p>" + strArray[i] + "</p>");
+                        // console.log(strArray[i]);
+                  }
+
+                }
+            }
+        });
+      });
+    </script>
+	    <div id="mod-danger" tabindex="-1" role="dialog" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
+          </div>
+          <div class="modal-body">
+            <div class="text-center">
+              <div class="text-danger"><span class="modal-main-icon mdi mdi-close-circle-o"></span></div>
+              <h3>Apakah anda yakin ingin melanjutkan ?</h3>
+              <div class="xs-mt-50">
+                <button type="button" data-dismiss="modal" class="btn btn-space btn-default">Batal</button>
+                <a href="{% url 'delete' pk=item.pk %}"><button class="btn btn-space btn-danger">Lanjutkan</button></a>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer"></div>
+        </div>
+      </div>
+    </div>
+{% endblock %} 

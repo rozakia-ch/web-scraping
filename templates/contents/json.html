@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Create Object from JSON String</h2>
+
+<p id="demo"></p>
+<div id="body"> </div>
+<script src="https://code.jquery.com/jquery-3.3.1.js" type="text/javascript"></script>
+<script>
+$(function(){
+	$.ajax({
+	    url: '/api/getNews/'+270 ,
+	    //force to handle it as text
+	    dataType: "text",
+	    success: function(data) {
+	        //data downloaded so we call parseJSON function 
+	        //and pass downloaded data
+	        var json = $.parseJSON(data);
+	        //now json variable contains data in json format
+	        //let's display a few items
+	        for (var i=0;i<json.length;++i)
+	        {
+	            // $('#demo').append('<div class="name">'+json[i].berita+'</>');
+	            var myStr = json[i].berita;
+	            
+		        var strArray = myStr.split("\n");
+		        // Display array values on page
+		        for (var i = 0; i < strArray.length; i++) {
+		              $("#body").append("<p>" + strArray[i] + "</p>");
+		              // console.log(strArray[i]);
+		        }
+
+	        }
+	    }
+	});
+});
+</script>
+
+</body>
+</html>

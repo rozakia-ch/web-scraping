@@ -1,0 +1,41 @@
+     {% load staticfiles %}
+      <nav class="navbar navbar-default navbar-fixed-top be-top-header">
+        <div class="container-fluid">
+          <div class="navbar-header"><a href="#" class="navbar-brand"></a></div>
+          <div class="be-right-navbar">
+            <ul class="nav navbar-nav navbar-right be-user-nav">
+              <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><img src="{% static 'assets/img/avatar.png' %}" alt="Avatar"><span class="user-name">Túpac Amaru</span></a>
+                <!-- <ul role="menu" class="dropdown-menu">
+                  <li>
+                    <div class="user-info">
+                      <div class="user-name">Túpac Amaru</div>
+                      <div class="user-position online">Available</div>
+                    </div>
+                  </li>
+                  <li><a href="#"><span class="icon mdi mdi-face"></span> Account</a></li>
+                  <li><a href="#"><span class="icon mdi mdi-settings"></span> Settings</a></li>
+                  <li><a href="#"><span class="icon mdi mdi-power"></span> Logout</a></li>
+                </ul> -->
+              </li>
+            </ul>
+            <div class="page-title"><span><b>WEB</b>Scraping</span></div>
+          </div>
+        </div>
+      </nav>
+      <div class="be-left-sidebar">
+        <div class="left-sidebar-wrapper"><a href="#" class="left-sidebar-toggle">Dashboard</a>
+          <div class="left-sidebar-spacer">
+            <div class="left-sidebar-scroll">
+              <div class="left-sidebar-content">
+                <ul class="sidebar-elements">
+                  <li class="divider">Menu</li>
+                  <li><a href="/dashboard"><i class="icon mdi mdi-home"></i><span>Dashboard</span></a>
+                  </li>
+                  <li><a href="/berita"><i class="icon mdi mdi-chart-donut"></i><span>Data Berita</span></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>

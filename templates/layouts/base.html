@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% include "layouts/head.html" %}
+	
+</style>
+</head>
+<body>
+	<div class="be-wrapper be-fixed-sidebar">
+		{% include "layouts/nav.html" %}
+		<div class="be-content">
+			{% block content %}
+       		{% endblock %}
+</body>
+</html>
